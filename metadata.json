@@ -1,0 +1,6 @@
+{
+  "name": "Bakershouse Nasik",
+  "description": "100% Eggless Customized Cakes, Cupcakes, Brownies & Dessert Hampers baked fresh to order in Nashik, Maharashtra.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

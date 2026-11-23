@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #FFFDFB;
+  --color-ivory-warm: #FFFBF2;
+  --color-mint-soft: #E9FAFA;
+  --color-mint-mid: #CFF6F6;
+  --color-mint-border: #BFEBEB;
+  --color-berry: #D12E79;
+  --color-berry-bright: #E9428E;
+  --color-berry-dark: #B32265;
+  --color-berry-soft: #FDEBF3;
+  --color-ink: #2A2422;
+  --color-ink-muted: #594F4C;
+  --color-scallop: #4D433F;
+  --color-whatsapp: #19874B;
+  --color-whatsapp-hover: #136E3C;
+  --font-display: "Fraunces", Georgia, Cambria, serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
