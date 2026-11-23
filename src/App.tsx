@@ -25,6 +25,7 @@ import { OrderBuilder } from './components/OrderBuilder';
 export default function App() {
   const [activeCategory, setActiveCategory] = useState<MenuCategory>('All');
   const [heroImgError, setHeroImgError] = useState(false);
+  const [logoImgError, setLogoImgError] = useState(false);
 
   // Order Builder shared state
   const [selectedItemId, setSelectedItemId] = useState<string>(MENU_ITEMS[0].id);
@@ -72,11 +73,21 @@ export default function App() {
             href="#top"
             className="inline-flex items-center gap-2.5 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E9428E]"
           >
-            <img
-              src={BRAND_LOGO}
-              alt="Baker's House Cakes & Party"
-              className="h-11 w-11 rounded-full border border-[#E9428E]/25 bg-white object-cover shadow-xs"
-            />
+            <span className="h-11 w-11 shrink-0 overflow-hidden rounded-full border border-[#E9428E]/25 bg-white shadow-xs">
+              {!logoImgError ? (
+                <img
+                  src={BRAND_LOGO}
+                  alt="Baker's House Cakes & Party"
+                  referrerPolicy="no-referrer"
+                  onError={() => setLogoImgError(true)}
+                  className="h-full w-full scale-[1.06] object-cover"
+                />
+              ) : (
+                <span className="flex h-full w-full items-center justify-center bg-[#E9FAFA] font-display text-xs font-bold text-[#D12E79]">
+                  BH
+                </span>
+              )}
+            </span>
             <span className="font-display text-lg font-semibold tracking-tight text-[#2A2422] sm:text-xl">
               Bakershouse Nasik
             </span>
@@ -185,13 +196,19 @@ export default function App() {
                   )}
 
                   {/* Official Circular Logo Seal */}
-                  <div className="absolute right-3 bottom-3 rounded-full bg-white/95 p-1 shadow-md sm:right-4 sm:bottom-4">
-                    <img
-                      src={BRAND_LOGO}
-                      alt="Baker's House Cakes & Party official emblem"
-                      className="h-16 w-16 rounded-full object-cover sm:h-20 sm:w-20"
-                    />
-                  </div>
+                  {!logoImgError && (
+                    <div className="absolute right-3 bottom-3 rounded-full bg-white/95 p-1 shadow-md sm:right-4 sm:bottom-4">
+                      <div className="h-16 w-16 overflow-hidden rounded-full sm:h-20 sm:w-20">
+                        <img
+                          src={BRAND_LOGO}
+                          alt="Baker's House Cakes & Party official emblem"
+                          referrerPolicy="no-referrer"
+                          onError={() => setLogoImgError(true)}
+                          className="h-full w-full scale-[1.06] object-cover"
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -316,11 +333,21 @@ export default function App() {
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-4">
-              <img
-                src={BRAND_LOGO}
-                alt="Baker's House Cakes & Party logo"
-                className="h-16 w-16 shrink-0 rounded-full border-2 border-white bg-white object-cover shadow-xs"
-              />
+              <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-white bg-white shadow-xs">
+                {!logoImgError ? (
+                  <img
+                    src={BRAND_LOGO}
+                    alt="Baker's House Cakes & Party logo"
+                    referrerPolicy="no-referrer"
+                    onError={() => setLogoImgError(true)}
+                    className="h-full w-full scale-[1.06] object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-[#FFFBF2] font-display text-base font-bold text-[#D12E79]">
+                    BH
+                  </div>
+                )}
+              </div>
               <div>
                 <p className="font-display text-xl font-semibold tracking-tight text-[#2A2422]">
                   Bakershouse Nasik • Nashik, Maharashtra

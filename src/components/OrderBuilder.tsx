@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { type MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AlertCircle,
   CalendarDays,
@@ -50,6 +50,16 @@ export function OrderBuilder({
   const [cakeMessage, setCakeMessage] = useState<string>('');
   const [validationError, setValidationError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [logoError, setLogoError] = useState(false);
+  const copyTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimerRef.current !== null) {
+        window.clearTimeout(copyTimerRef.current);
+      }
+    };
+  }, []);
 
   const selectedItem = useMemo(
     () => MENU_ITEMS.find((item) => item.id === selectedItemId) ?? MENU_ITEMS[0],
@@ -113,7 +123,7 @@ export function OrderBuilder({
     }
   };
 
-  const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleWhatsAppClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (!isDateValid) {
       e.preventDefault();
       setValidationError(
@@ -149,7 +159,13 @@ export function OrderBuilder({
     try {
       await navigator.clipboard.writeText(formattedMessage);
       setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
+      if (copyTimerRef.current !== null) {
+        window.clearTimeout(copyTimerRef.current);
+      }
+      copyTimerRef.current = window.setTimeout(() => {
+        setCopied(false);
+        copyTimerRef.current = null;
+      }, 2000);
     } catch {
       // Clipboard unavailable in restricted context
     }
@@ -456,11 +472,21 @@ export function OrderBuilder({
           {/* Right Live Estimate & WhatsApp Summary Card (Ivory + Berry Pink Ring matching Logo Center) */}
           <aside className="rounded-2xl border-2 border-[#E9428E]/35 bg-[#FFFBF2] p-5 text-[#2A2422] shadow-[0_14px_34px_-18px_rgba(42,36,34,0.16)] sm:p-7 lg:sticky lg:top-20 lg:col-span-5">
             <div className="flex items-center gap-3.5 border-b border-[#F2D5E3] pb-5">
-              <img
-                src={BRAND_LOGO}
-                alt="Baker's House Cakes & Party logo"
-                className="h-14 w-14 shrink-0 rounded-full border border-[#E9428E]/30 bg-white object-cover"
-              />
+              <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full border border-[#E9428E]/30 bg-white">
+                {!logoError ? (
+                  <img
+                    src={BRAND_LOGO}
+                    alt="Baker's House Cakes & Party logo"
+                    referrerPolicy="no-referrer"
+                    onError={() => setLogoError(true)}
+                    className="h-full w-full scale-[1.06] object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-[#E9FAFA] font-display text-sm font-bold text-[#D12E79]">
+                    BH
+                  </div>
+                )}
+              </div>
               <div className="min-w-0 flex-1">
                 <p className="text-xs font-semibold tracking-wide text-[#B82568]">
                   Live Estimated Price

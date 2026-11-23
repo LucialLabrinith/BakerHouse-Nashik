@@ -205,6 +205,6 @@ export function formatReadableDate(isoDate: string): string {
 }
 
 export function isDateAtLeastMin(selectedDate: string, minDate: string): boolean {
-  if (!selectedDate) return false;
+  if (!selectedDate || !/^\d{4}-\d{2}-\d{2}$/.test(selectedDate)) return false;
   return selectedDate >= minDate;
 }
